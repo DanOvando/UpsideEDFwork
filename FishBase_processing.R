@@ -12,7 +12,7 @@
 library(rfishbase)
 
 ###Set working directory:
-setwd("/Volumes/COMPATIBLE/ContractWork/EDF/Upside/Models/FishBase/")
+setwd("/Volumes/COMPATIBLE/ContractWork/EDF/Upside/Models/FishBase/Upside_FishBase_git")
 
 ###Use the following command to search through all FishBase tables for particular fields---sometimes multiple tables will have data:
 list_fields("TLinf")
@@ -57,7 +57,7 @@ SpecListFB2<-as.vector(SpecListFB)
 
 #####################################
 ###Set working directory where the datatables are located and read in files:
-setwd('/Volumes/COMPATIBLE/ContractWork/EDF/Upside/Models/FishBase/FullFishBase_April2016')
+setwd('/Volumes/COMPATIBLE/ContractWork/EDF/Upside/Models/FishBase/Upside_FishBase_git/Data')
 
 ###Read in dataset with maturity data for species:
 MaturityData<-read.csv("MaturityData.csv", stringsAsFactors=F, header=T)
@@ -103,7 +103,7 @@ Species_mpack<-merge(Species_mpack, LengthData, by="sciname", all.x=T)
 Species_mpack<-merge(Species_mpack, aveVar, by="sciname", all.x=T)
 Species_mpack<-merge(Species_mpack, StocksTempData2, by="sciname", all.x=T)
 Species_mpack$Temperature3<-ifelse(is.na(Species_mpack$Temperature)==T, Species_mpack$Temperature2, Species_mpack$Temperature)
-write.csv(Species_mpack, "Species_mpack.csv", row.names=F)
+#write.csv(Species_mpack, "Species_mpack.csv", row.names=F)
 
 
 
