@@ -15,7 +15,7 @@ library(rfishbase)
 setwd("/Volumes/COMPATIBLE/ContractWork/EDF/Upside/Models/FishBase/Upside_FishBase_git")
 
 ###Use the following command to search through all FishBase tables for particular fields---sometimes multiple tables will have data:
-list_fields("TLinf")
+#list_fields("TLinf")
 
 
 ###Load the full list of taxa in FishBase (>33000 species):
@@ -102,8 +102,29 @@ Species_mpack<-merge(SpeciesListFB, avetm, by="sciname", all.x=T)
 Species_mpack<-merge(Species_mpack, LengthData, by="sciname", all.x=T)
 Species_mpack<-merge(Species_mpack, aveVar, by="sciname", all.x=T)
 Species_mpack<-merge(Species_mpack, StocksTempData2, by="sciname", all.x=T)
-Species_mpack$Temperature3<-ifelse(is.na(Species_mpack$Temperature)==T, Species_mpack$Temperature2, Species_mpack$Temperature)
+Species_mpack$Temperature3<-ifelse(is.na(Species_mpack$Temperature2)==T, Species_mpack$Temperature, Species_mpack$Temperature2)
 #write.csv(Species_mpack, "Species_mpack.csv", row.names=F)
 
 
+####Create S_mpack:
+setwd("/Volumes/COMPATIBLE/ContractWork/EDF/Upside/Models/FishBase/Upside_FishBase_git/Data")
+Species_mpack<-read.csv("Species_mpack.csv", header=T, stringsAsFactors=F)
+names(Species_mpack)
 
+Species_mpack2<-Species_mpack[,c(-2,-4:-10, -16:-20, -22:-23)]
+S_mpack<-Species_mpack2[which(is.na(Species_mpack2$tm)==F|is.na(Species_mpack2$Length)==F|is.na(Species_mpack2$aveKphi)==F|is.na(Species_mpack2$Temperature)==F),]
+names(S_mpack)<-c("sname", "genus", "fam", "ord", "class", "agem", "maxl", "vbk", "temp")
+
+
+SRR<-read.csv("SAUP_Region_RECON.csv", header=T, stringsAsFactors=F)
+SRR_nametest<-cbind(SRR$scientific_name, SRR$functional_group)
+SRR_nametest<-data.frame(SRR_nametest)
+names(SRR_nametest)<-c("scientific_name", "functional_group")
+SRR_test<-unique(SRR_nametest)
+
+SS<-cbind(S_mpack$sname, S_mpack$sname)
+SS<-data.frame(SS)
+names(SS)<-c("sname", "sname2")
+SS_TEST<-merge(SRR_test, SS, by.x="scientific_name", by.y="sname", all.x=T, all.y=F)
+head(SS_TEST)
+write.csv(SS_TEST, "SS_TEST.csv", row.names=F)
