@@ -114,7 +114,7 @@ names(Species_mpack)
 Species_mpack2<-Species_mpack[,c(-2,-4:-10, -16:-20, -22:-23)]
 S_mpack<-Species_mpack2[which(is.na(Species_mpack2$tm)==F|is.na(Species_mpack2$Length)==F|is.na(Species_mpack2$aveKphi)==F|is.na(Species_mpack2$Temperature)==F),]
 names(S_mpack)<-c("sname", "genus", "fam", "ord", "class", "agem", "maxl", "vbk", "temp")
-
+#write.csv(S_mpack, "S_mpack.csv", row.names=F)
 
 SRR<-read.csv("SAUP_Region_RECON.csv", header=T, stringsAsFactors=F)
 SRR_nametest<-cbind(SRR$scientific_name, SRR$functional_group)
